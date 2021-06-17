@@ -6,11 +6,15 @@ namespace ZenClicker
 {
     public partial class Form1 : Form
     {
-        //Mouse actions
+        #region mouse_actions
+
         private const int MOUSEEVENTF_LEFTDOWN = 0x02;
         private const int MOUSEEVENTF_LEFTUP = 0x04;
         private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
         private const int MOUSEEVENTF_RIGHTUP = 0x10;
+
+        #endregion
+
         private bool clicker;
 
 
@@ -34,16 +38,20 @@ namespace ZenClicker
         {
             if (checkBox1.Checked)
                 clicker = true;
-            else if (!checkBox1.Checked) clicker = false;
 
-            
+            else if (!checkBox1.Checked) 
+                clicker = false;
+
             label1.Text = "status: " + (clicker ? "enabled" : "disabled");
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
         }
 
+
+        #region self_destruct
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -61,6 +69,8 @@ namespace ZenClicker
             trackBar2.Dispose();
             Application.Exit();
         }
+
+        #endregion
 
         #region cps
 
@@ -90,10 +100,18 @@ namespace ZenClicker
                 label2.Text = "Min cps: " + trackBar1.Value;
                 label3.Text = "Max cps: " + trackBar2.Value;
             }
-
         }
+
         #endregion
 
+        #region hide_taskbar
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ShowInTaskbar = !ShowInTaskbar;
+        }
+
+        #endregion
 
     }
 }
