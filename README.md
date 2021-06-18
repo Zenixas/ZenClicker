@@ -13,7 +13,7 @@ Right key toggle key - F2
 - [x] Hide in taskbar
 - [x] Right click autoclicker
 - [ ] Better design
-- [+-] Clean code
+- [] Clean code
 - [ ] Custom toggle key
 - [ ] Hide in task manager
 
