@@ -68,8 +68,6 @@ namespace ZenClicker
                 clicker = false;
                 timer1.Stop();
             }
-                
-            label1.Text = "status: " + (clicker ? "enabled" : "disabled");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -78,6 +76,8 @@ namespace ZenClicker
             System.Diagnostics.Process[] pid = System.Diagnostics.Process.GetProcessesByName("javaw");
 
             CheckKeys.Start();
+
+            label5.Text = "Key Down: " + activated;
 
             if (pid.Length == 0)
             {
@@ -136,13 +136,13 @@ namespace ZenClicker
         {
             checkBox1.Dispose();
             button1.Dispose();
-            label1.Dispose();
             label2.Dispose();
             label3.Dispose();
             trackBar1.Dispose();
             trackBar2.Dispose();
             button2.Dispose();
             label4.Dispose();
+            label5.Dispose();
             Application.Exit();
         }
 
@@ -167,15 +167,22 @@ namespace ZenClicker
                 int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
                 LeftMouseClick();
                 Thread.Sleep(delay);
-                CheckKeys.Start();
+
+                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F1))
+                {
+                    activated = false;
+                    label5.Text = "Key Down: " + activated;
+                }
             }
         }
         private void CheckKeys_Tick(object sender, EventArgs e)
         {
-            if (System.Windows.Input.Keyboard.IsKeyToggled(System.Windows.Input.Key.F1) == true)
+            if (System.Windows.Input.Keyboard.IsKeyToggled(Key.F1))
+            {
                 activated = true;
-            else
-                activated = false;
+                label5.Text = "Key Down: " + activated;
+            }
         }
     }
 }
+
