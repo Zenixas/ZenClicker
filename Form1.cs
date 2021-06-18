@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Diagnostics;
-using System.Windows.Input;
+using System.Runtime.InteropServices;
 using System.Threading;
-using Microsoft.VisualBasic.Devices;
+using System.Windows.Forms;
+using System.Windows.Input;
+using Cursor = System.Windows.Forms.Cursor;
 
 
 namespace ZenClicker
@@ -39,20 +39,22 @@ namespace ZenClicker
         public void RightMouseClick()
         {
             //Call the imported function with the cursor's current position
-            uint X = (uint)System.Windows.Forms.Cursor.Position.X;
-            uint Y = (uint)System.Windows.Forms.Cursor.Position.Y;
+            uint X = (uint)Cursor.Position.X;
+            uint Y = (uint)Cursor.Position.Y;
             mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
         }
 
         public void LeftMouseClick()
         {
             //Call the imported function with the cursor's current position
-            uint X = (uint)System.Windows.Forms.Cursor.Position.X;
-            uint Y = (uint)System.Windows.Forms.Cursor.Position.Y;
+            uint X = (uint)Cursor.Position.X;
+            uint Y = (uint)Cursor.Position.Y;
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
         }
 
         #endregion
+
+        #region checkbox enable
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -62,7 +64,7 @@ namespace ZenClicker
                 timer1.Start();
                 timer2.Start();
             }
-                                
+
             else if (!checkBox1.Checked)
             {
                 clicker = false;
@@ -71,11 +73,14 @@ namespace ZenClicker
             }
         }
 
+        #endregion
+
         #region form load up
+
         private void Form1_Load(object sender, EventArgs e)
         {
             // checks if minecraft is opened
-            System.Diagnostics.Process[] pid = System.Diagnostics.Process.GetProcessesByName("javaw");
+            System.Diagnostics.Process[] pid = Process.GetProcessesByName("javaw");
 
             CheckKeyRight.Start();
             CheckKeyLeft.Start();
@@ -89,10 +94,7 @@ namespace ZenClicker
                 DialogResult result;
                 result = MessageBox.Show("Minecraft not found, would you like to continue", "Minecraft not found", buttons);
 
-                if (result == System.Windows.Forms.DialogResult.No)
-                {
-                    Application.Exit();
-                }
+                if (result == System.Windows.Forms.DialogResult.No) { Application.Exit();}
             }
 
         }
@@ -111,17 +113,15 @@ namespace ZenClicker
                 RightMouseClick();
                 Thread.Sleep(delay);
 
-                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F2))
-                {
-                    activated_right = false;
-                }
+                if (Keyboard.IsKeyUp(Key.F2)) { activated_right = false; }
             }
 
             label9.Text = "Key Down: " + activated_right;
         }
+
         private void CheckKeyRight_Tick(object sender, EventArgs e)
         {
-            if (System.Windows.Input.Keyboard.IsKeyToggled(Key.F2))
+            if (Keyboard.IsKeyToggled(Key.F2))
             {
                 activated_right = true;
                 label9.Text = "Key Down: " + activated_right;
@@ -142,18 +142,15 @@ namespace ZenClicker
                 LeftMouseClick();
                 Thread.Sleep(delay);
 
-                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F1))
-                {
-                    activated = false;
-                    
-                }
+                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F1)) { activated = false; }
             }
 
             label5.Text = "Key Down: " + activated;
         }
+
         private void CheckKeysLeft_Tick(object sender, EventArgs e)
         {
-            if (System.Windows.Input.Keyboard.IsKeyToggled(Key.F1))
+            if (Keyboard.IsKeyToggled(Key.F1))
             {
                 activated = true;
                 label5.Text = "Key Down: " + activated;
@@ -192,7 +189,6 @@ namespace ZenClicker
             ShowInTaskbar = !ShowInTaskbar;
         }
 
-
         #endregion
 
         #region right click cps
@@ -227,7 +223,7 @@ namespace ZenClicker
 
         #region left click cps
 
-        // min cps
+        
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             label2.Text = "Min cps: " + trackBar1.Value;
@@ -241,7 +237,6 @@ namespace ZenClicker
             }
         }
 
-        //max cps
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             label3.Text = "Max cps: " + trackBar2.Value;
@@ -256,7 +251,5 @@ namespace ZenClicker
         }
 
         #endregion
-
     }
 }
-
