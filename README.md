@@ -1,8 +1,8 @@
 # ZenClicker
 
-### ZenClicker is an autoclicker specifically designed for Minecraft
+ZenClicker is an autoclicker specifically designed for Minecraft
 
-## Featues / Upcoming features
+### Featues / Upcoming features
 - [x] Left click autoclicker
 - [x] Self destruct
 - [x] Hide in taskbar
