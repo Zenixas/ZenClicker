@@ -1,6 +1,7 @@
 # ZenClicker
 
 ZenClicker is an autoclicker specifically designed for Minecraft
+Current toggle key(left click) - F1
 
 ### Featues / Upcoming features
 - [x] Left click autoclicker
