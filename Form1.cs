@@ -23,6 +23,7 @@ namespace ZenClicker
 
         private bool clicker = false;
         private bool activated = false;
+        private bool activated_right = false;
         public Form1()
         {
             InitializeComponent();
@@ -53,31 +54,34 @@ namespace ZenClicker
 
         #endregion
 
-
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
             {
                 clicker = true;
                 timer1.Start();
+                timer2.Start();
             }
                                 
             else if (!checkBox1.Checked)
             {
                 clicker = false;
                 timer1.Stop();
+                timer2.Stop();
             }
         }
 
+        #region form load up
         private void Form1_Load(object sender, EventArgs e)
         {
             // checks if minecraft is opened
             System.Diagnostics.Process[] pid = System.Diagnostics.Process.GetProcessesByName("javaw");
 
-            CheckKeys.Start();
+            CheckKeyRight.Start();
+            CheckKeyLeft.Start();
 
             label5.Text = "Key Down: " + activated;
+            label9.Text = "Key Down: " + activated_right;
 
             if (pid.Length == 0)
             {
@@ -93,33 +97,66 @@ namespace ZenClicker
 
         }
 
-        #region cps
+        #endregion
 
-        // min cps
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        #region rightclicking
+
+        private void timer2_Tick(object sender, EventArgs e)
         {
-            label2.Text = "Min cps: " + trackBar1.Value;
+            Random rnd = new Random();
 
-            // makes sure max value isnt less than min value
-            if (trackBar1.Value > trackBar2.Value)
+            while (clicker && activated_right)
             {
-                trackBar2.Value = trackBar1.Value;
-                label2.Text = "Min cps: " + trackBar1.Value;
-                label3.Text = "Max cps: " + trackBar2.Value;
+                int delay = 1000 / rnd.Next(trackBar3.Value, trackBar4.Value);
+                RightMouseClick();
+                Thread.Sleep(delay);
+
+                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F2))
+                {
+                    activated_right = false;
+                }
+            }
+
+            label9.Text = "Key Down: " + activated_right;
+        }
+        private void CheckKeyRight_Tick(object sender, EventArgs e)
+        {
+            if (System.Windows.Input.Keyboard.IsKeyToggled(Key.F2))
+            {
+                activated_right = true;
+                label9.Text = "Key Down: " + activated_right;
             }
         }
 
-        //max cps
-        private void trackBar2_Scroll(object sender, EventArgs e)
-        {
-            label3.Text = "Max cps: " + trackBar2.Value;
+        #endregion
 
-            // makes sure min value isnt more than max value
-            if (trackBar2.Value < trackBar1.Value)
+        #region leftclicking
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+
+            while (clicker && activated)
             {
-                trackBar2.Value = trackBar1.Value;
-                label2.Text = "Min cps: " + trackBar1.Value;
-                label3.Text = "Max cps: " + trackBar2.Value;
+                int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
+                LeftMouseClick();
+                Thread.Sleep(delay);
+
+                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F1))
+                {
+                    activated = false;
+                    
+                }
+            }
+
+            label5.Text = "Key Down: " + activated;
+        }
+        private void CheckKeysLeft_Tick(object sender, EventArgs e)
+        {
+            if (System.Windows.Input.Keyboard.IsKeyToggled(Key.F1))
+            {
+                activated = true;
+                label5.Text = "Key Down: " + activated;
             }
         }
 
@@ -155,34 +192,71 @@ namespace ZenClicker
             ShowInTaskbar = !ShowInTaskbar;
         }
 
+
         #endregion
 
+        #region right click cps
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void trackBar3_Scroll(object sender, EventArgs e)
         {
-            Random rnd = new Random();
+            label7.Text = "Min cps: " + trackBar3.Value;
 
-            while (clicker && activated)
+            // makes sure max value isnt less than min value
+            if (trackBar3.Value > trackBar4.Value)
             {
-                int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
-                LeftMouseClick();
-                Thread.Sleep(delay);
-
-                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F1))
-                {
-                    activated = false;
-                    label5.Text = "Key Down: " + activated;
-                }
+                trackBar4.Value = trackBar3.Value;
+                label7.Text = "Min cps: " + trackBar3.Value;
+                label8.Text = "Max cps: " + trackBar4.Value;
             }
         }
-        private void CheckKeys_Tick(object sender, EventArgs e)
+
+        private void trackBar4_Scroll(object sender, EventArgs e)
         {
-            if (System.Windows.Input.Keyboard.IsKeyToggled(Key.F1))
+            label8.Text = "Max cps: " + trackBar4.Value;
+
+            // makes sure min value isnt more than max value
+            if (trackBar4.Value < trackBar3.Value)
             {
-                activated = true;
-                label5.Text = "Key Down: " + activated;
+                trackBar4.Value = trackBar3.Value;
+                label7.Text = "Min cps: " + trackBar3.Value;
+                label8.Text = "Max cps: " + trackBar4.Value;
             }
         }
+
+        #endregion
+
+        #region left click cps
+
+        // min cps
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label2.Text = "Min cps: " + trackBar1.Value;
+
+            // makes sure max value isnt less than min value
+            if (trackBar1.Value > trackBar2.Value)
+            {
+                trackBar2.Value = trackBar1.Value;
+                label2.Text = "Min cps: " + trackBar1.Value;
+                label3.Text = "Max cps: " + trackBar2.Value;
+            }
+        }
+
+        //max cps
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            label3.Text = "Max cps: " + trackBar2.Value;
+
+            // makes sure min value isnt more than max value
+            if (trackBar2.Value < trackBar1.Value)
+            {
+                trackBar2.Value = trackBar1.Value;
+                label2.Text = "Min cps: " + trackBar1.Value;
+                label3.Text = "Max cps: " + trackBar2.Value;
+            }
+        }
+
+        #endregion
+
     }
 }
 
