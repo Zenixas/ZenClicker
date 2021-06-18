@@ -4,9 +4,12 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Threading;
+using Microsoft.VisualBasic.Devices;
+
 
 namespace ZenClicker
 {
+
     public partial class Form1 : Form
     {
         #region mouse_actions
@@ -25,6 +28,8 @@ namespace ZenClicker
             InitializeComponent();
         }
 
+
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
 
@@ -33,20 +38,22 @@ namespace ZenClicker
         public void RightMouseClick()
         {
             //Call the imported function with the cursor's current position
-            uint X = (uint)Cursor.Position.X;
-            uint Y = (uint)Cursor.Position.Y;
+            uint X = (uint)System.Windows.Forms.Cursor.Position.X;
+            uint Y = (uint)System.Windows.Forms.Cursor.Position.Y;
             mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
         }
 
         public void LeftMouseClick()
         {
             //Call the imported function with the cursor's current position
-            uint X = (uint) Cursor.Position.X;
-            uint Y = (uint) Cursor.Position.Y;
+            uint X = (uint)System.Windows.Forms.Cursor.Position.X;
+            uint Y = (uint)System.Windows.Forms.Cursor.Position.Y;
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
         }
 
         #endregion
+
+
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -70,8 +77,8 @@ namespace ZenClicker
             // checks if minecraft is opened
             System.Diagnostics.Process[] pid = System.Diagnostics.Process.GetProcessesByName("javaw");
 
-            KeyPreview = true;
-            
+            CheckKeys.Start();
+
             if (pid.Length == 0)
             {
                 MessageBoxButtons buttons = MessageBoxButtons.YesNo;
@@ -160,8 +167,15 @@ namespace ZenClicker
                 int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
                 LeftMouseClick();
                 Thread.Sleep(delay);
-
+                CheckKeys.Start();
             }
+        }
+        private void CheckKeys_Tick(object sender, EventArgs e)
+        {
+            if (System.Windows.Input.Keyboard.IsKeyToggled(System.Windows.Input.Key.F1) == true)
+                activated = true;
+            else
+                activated = false;
         }
     }
 }
