@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.Windows.Input;
+using System.Threading;
 
 namespace ZenClicker
 {
@@ -15,9 +18,8 @@ namespace ZenClicker
 
         #endregion
 
-        private bool clicker;
-
-
+        private bool clicker = false;
+        private bool activated = false;
         public Form1()
         {
             InitializeComponent();
@@ -26,7 +28,17 @@ namespace ZenClicker
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
 
-        public void DoMouseClick()
+        #region mouse_clicks
+
+        public void RightMouseClick()
+        {
+            //Call the imported function with the cursor's current position
+            uint X = (uint)Cursor.Position.X;
+            uint Y = (uint)Cursor.Position.Y;
+            mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
+        }
+
+        public void LeftMouseClick()
         {
             //Call the imported function with the cursor's current position
             uint X = (uint) Cursor.Position.X;
@@ -34,43 +46,45 @@ namespace ZenClicker
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
         }
 
+        #endregion
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
+            {
                 clicker = true;
-
-            else if (!checkBox1.Checked) 
+                timer1.Start();
+            }
+                                
+            else if (!checkBox1.Checked)
+            {
                 clicker = false;
-
+                timer1.Stop();
+            }
+                
             label1.Text = "status: " + (clicker ? "enabled" : "disabled");
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // checks if minecraft is opened
+            System.Diagnostics.Process[] pid = System.Diagnostics.Process.GetProcessesByName("javaw");
+
+            KeyPreview = true;
+            
+            if (pid.Length == 0)
+            {
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result;
+                result = MessageBox.Show("Minecraft not found, would you like to continue", "Minecraft not found", buttons);
+
+                if (result == System.Windows.Forms.DialogResult.No)
+                {
+                    Application.Exit();
+                }
+            }
 
         }
-
-
-        #region self_destruct
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            self_destruct();
-        }
-
-        private void self_destruct()
-        {
-            checkBox1.Dispose();
-            button1.Dispose();
-            label1.Dispose();
-            label2.Dispose();
-            label3.Dispose();
-            trackBar1.Dispose();
-            trackBar2.Dispose();
-            Application.Exit();
-        }
-
-        #endregion
 
         #region cps
 
@@ -104,6 +118,29 @@ namespace ZenClicker
 
         #endregion
 
+        #region self_destruct
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            self_destruct();
+        }
+
+        private void self_destruct()
+        {
+            checkBox1.Dispose();
+            button1.Dispose();
+            label1.Dispose();
+            label2.Dispose();
+            label3.Dispose();
+            trackBar1.Dispose();
+            trackBar2.Dispose();
+            button2.Dispose();
+            label4.Dispose();
+            Application.Exit();
+        }
+
+        #endregion
+
         #region hide_taskbar
 
         private void button2_Click(object sender, EventArgs e)
@@ -113,5 +150,18 @@ namespace ZenClicker
 
         #endregion
 
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+
+            while (clicker && activated)
+            {
+                int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
+                LeftMouseClick();
+                Thread.Sleep(delay);
+
+            }
+        }
     }
 }
