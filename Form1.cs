@@ -41,6 +41,7 @@ namespace ZenClicker
             //Call the imported function with the cursor's current position
             uint X = (uint)Cursor.Position.X;
             uint Y = (uint)Cursor.Position.Y;
+            
             mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
         }
 
@@ -123,7 +124,7 @@ namespace ZenClicker
         {
             if (Keyboard.IsKeyToggled(Key.F2))
             {
-                activated_right = true;
+                activated_right = !activated_right;
                 label9.Text = "Key Down: " + activated_right;
             }
         }
@@ -152,7 +153,7 @@ namespace ZenClicker
         {
             if (Keyboard.IsKeyToggled(Key.F1))
             {
-                activated = true;
+                activated = !activated;
                 label5.Text = "Key Down: " + activated;
             }
         }
@@ -170,13 +171,20 @@ namespace ZenClicker
         {
             checkBox1.Dispose();
             button1.Dispose();
-            label2.Dispose();
-            label3.Dispose();
+            button2.Dispose();
             trackBar1.Dispose();
             trackBar2.Dispose();
-            button2.Dispose();
+            trackBar3.Dispose();
+            trackBar4.Dispose();
+            label1.Dispose();
+            label2.Dispose();
+            label3.Dispose();
             label4.Dispose();
             label5.Dispose();
+            label6.Dispose();
+            label7.Dispose();
+            label8.Dispose();
+            label9.Dispose();
             Application.Exit();
         }
 
