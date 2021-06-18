@@ -1,6 +1,6 @@
 # ZenClicker
 
-## ZenClicker is an autoclicker specifically designed for Minecraft
+### ZenClicker is an autoclicker specifically designed for Minecraft
 
 ## Featues / Upcoming features
 - [x] Left click autoclicker
