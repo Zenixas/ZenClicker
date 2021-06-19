@@ -62,15 +62,11 @@ namespace ZenClicker
             if (checkBox1.Checked)
             {
                 clicker = true;
-                timer1.Start();
-                timer2.Start();
             }
 
             else if (!checkBox1.Checked)
             {
                 clicker = false;
-                timer1.Stop();
-                timer2.Stop();
             }
         }
 
@@ -104,28 +100,23 @@ namespace ZenClicker
 
         #region rightclicking
 
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-
-            while (clicker && activated_right)
-            {
-                int delay = 1000 / rnd.Next(trackBar3.Value, trackBar4.Value);
-                RightMouseClick();
-                Thread.Sleep(delay);
-
-                if (Keyboard.IsKeyUp(Key.F2)) { activated_right = false; }
-            }
-
-            label9.Text = "Key Down: " + activated_right;
-        }
-
         private void CheckKeyRight_Tick(object sender, EventArgs e)
         {
             if (Keyboard.IsKeyToggled(Key.F2))
             {
                 activated_right = !activated_right;
                 label9.Text = "Key Down: " + activated_right;
+
+                Random rnd = new Random();
+
+                while (clicker && activated_right)
+                {
+                    int delay = 1000 / rnd.Next(trackBar3.Value, trackBar4.Value);
+                    RightMouseClick();
+                    Thread.Sleep(delay);
+
+                    if (Keyboard.IsKeyUp(Key.F2)) { activated_right = false; }
+                }
             }
         }
 
@@ -133,28 +124,21 @@ namespace ZenClicker
 
         #region leftclicking
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-
-            while (clicker && activated)
-            {
-                int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
-                LeftMouseClick();
-                Thread.Sleep(delay);
-
-                if (System.Windows.Input.Keyboard.IsKeyUp(Key.F1)) { activated = false; }
-            }
-
-            label5.Text = "Key Down: " + activated;
-        }
-
         private void CheckKeysLeft_Tick(object sender, EventArgs e)
         {
             if (Keyboard.IsKeyToggled(Key.F1))
             {
                 activated = !activated;
                 label5.Text = "Key Down: " + activated;
+
+                Random rnd = new Random();
+
+                if (clicker && activated)
+                {
+                    int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
+                    LeftMouseClick();
+                    Thread.Sleep(delay);
+                }
             }
         }
 

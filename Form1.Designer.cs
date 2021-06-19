@@ -38,7 +38,6 @@ namespace ZenClicker
             this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label5 = new System.Windows.Forms.Label();
             this.CheckKeyLeft = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -47,7 +46,6 @@ namespace ZenClicker
             this.label8 = new System.Windows.Forms.Label();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.trackBar4 = new System.Windows.Forms.TrackBar();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.CheckKeyRight = new System.Windows.Forms.Timer(this.components);
             this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -137,10 +135,6 @@ namespace ZenClicker
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -219,10 +213,6 @@ namespace ZenClicker
             this.trackBar4.Value = 1;
             this.trackBar4.Scroll += new System.EventHandler(this.trackBar4_Scroll);
             // 
-            // timer2
-            // 
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
             // CheckKeyRight
             // 
             this.CheckKeyRight.Interval = 150;
@@ -281,7 +271,6 @@ namespace ZenClicker
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer CheckKeyLeft;
         private System.Windows.Forms.Label label1;
@@ -290,7 +279,6 @@ namespace ZenClicker
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TrackBar trackBar4;
-        private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Timer CheckKeyRight;
         private System.Windows.Forms.Label label9;
     }
