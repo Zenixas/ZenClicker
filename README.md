@@ -12,8 +12,8 @@ Right key toggle key - F2
 - [x] Self destruct
 - [x] Hide in taskbar
 - [x] Right click autoclicker
+- [x] Clean code
 - [ ] Better design
-- [ ] Clean code
 - [ ] Custom toggle key
 - [ ] Hide in task manager
 
