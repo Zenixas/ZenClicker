@@ -29,8 +29,6 @@ namespace ZenClicker
             InitializeComponent();
         }
 
-
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
 
@@ -104,20 +102,21 @@ namespace ZenClicker
         {
             if (Keyboard.IsKeyToggled(Key.F2))
             {
-                activated_right = !activated_right;
-                label9.Text = "Key Down: " + activated_right;
+                label9.Text = "Key Down: " + (activated_right = true);
+
+                int maxcps = (int)Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.02));
+                int mincps = (int)Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.04));
 
                 Random rnd = new Random();
+                CheckKeyRight.Interval = rnd.Next(mincps, maxcps);
 
                 while (clicker && activated_right)
                 {
-                    int delay = 1000 / rnd.Next(trackBar3.Value, trackBar4.Value);
                     RightMouseClick();
-                    Thread.Sleep(delay);
-
-                    if (Keyboard.IsKeyUp(Key.F2)) { activated_right = false; }
                 }
             }
+            else           
+                label9.Text = "Key Down: " + (activated_right = false);
         }
 
         #endregion
@@ -128,18 +127,21 @@ namespace ZenClicker
         {
             if (Keyboard.IsKeyToggled(Key.F1))
             {
-                activated = !activated;
-                label5.Text = "Key Down: " + activated;
+                label5.Text = "Key Down: " + (activated = true);
+
+                int maxcps = (int)Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.02));
+                int mincps = (int)Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.04));
 
                 Random rnd = new Random();
+                CheckKeyLeft.Interval = rnd.Next(mincps, maxcps);
 
                 if (clicker && activated)
-                {
-                    int delay = 1000 / rnd.Next(trackBar1.Value, trackBar2.Value);
+                {      
                     LeftMouseClick();
-                    Thread.Sleep(delay);
                 }
             }
+            else       
+                label5.Text = "Key Down: " + (activated = false);
         }
 
         #endregion
