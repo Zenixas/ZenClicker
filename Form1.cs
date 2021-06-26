@@ -1,71 +1,29 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Cursor = System.Windows.Forms.Cursor;
-
 
 namespace ZenClicker
 {
-
     public partial class Form1 : Form
     {
-        #region mouse_actions
+        private bool activated;
+        private bool activated_right;
+        private bool clicker;
 
-        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
-        private const int MOUSEEVENTF_LEFTUP = 0x04;
-        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-        private const int MOUSEEVENTF_RIGHTUP = 0x10;
-
-        #endregion
-
-        private bool clicker = false;
-        private bool activated = false;
-        private bool activated_right = false;
         public Form1()
         {
             InitializeComponent();
         }
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
-
-        #region mouse_clicks
-
-        public void RightMouseClick()
-        {
-            //Call the imported function with the cursor's current position
-            uint X = (uint)Cursor.Position.X;
-            uint Y = (uint)Cursor.Position.Y;
-            
-            mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, X, Y, 0, 0);
-        }
-
-        public void LeftMouseClick()
-        {
-            //Call the imported function with the cursor's current position
-            uint X = (uint)Cursor.Position.X;
-            uint Y = (uint)Cursor.Position.Y;
-            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
-        }
-
-        #endregion
 
         #region checkbox enable
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
-            {
                 clicker = true;
-            }
 
-            else if (!checkBox1.Checked)
-            {
-                clicker = false;
-            }
+            else if (!checkBox1.Checked) clicker = false;
         }
 
         #endregion
@@ -75,7 +33,7 @@ namespace ZenClicker
         private void Form1_Load(object sender, EventArgs e)
         {
             // checks if minecraft is opened
-            System.Diagnostics.Process[] pid = Process.GetProcessesByName("javaw");
+            Process[] pid = Process.GetProcessesByName("javaw");
 
             CheckKeyRight.Start();
             CheckKeyLeft.Start();
@@ -87,11 +45,11 @@ namespace ZenClicker
             {
                 MessageBoxButtons buttons = MessageBoxButtons.YesNo;
                 DialogResult result;
-                result = MessageBox.Show("Minecraft not found, would you like to continue", "Minecraft not found", buttons);
+                result = MessageBox.Show("Minecraft not found, would you like to continue", "Minecraft not found",
+                    buttons);
 
-                if (result == System.Windows.Forms.DialogResult.No) { Application.Exit();}
+                if (result == DialogResult.No) Application.Exit();
             }
-
         }
 
         #endregion
@@ -104,19 +62,18 @@ namespace ZenClicker
             {
                 label9.Text = "Key Down: " + (activated_right = true);
 
-                int maxcps = (int)Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.02));
-                int mincps = (int)Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.04));
+                int maxcps = (int) Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.02));
+                int mincps = (int) Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.04));
 
                 Random rnd = new Random();
                 CheckKeyRight.Interval = rnd.Next(mincps, maxcps);
 
-                while (clicker && activated_right)
-                {
-                    RightMouseClick();
-                }
+                if (clicker && activated_right) MouseClicks.RightMouseClick();
             }
-            else           
+            else
+            {
                 label9.Text = "Key Down: " + (activated_right = false);
+            }
         }
 
         #endregion
@@ -129,19 +86,18 @@ namespace ZenClicker
             {
                 label5.Text = "Key Down: " + (activated = true);
 
-                int maxcps = (int)Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.02));
-                int mincps = (int)Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.04));
+                int maxcps = (int) Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.02));
+                int mincps = (int) Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.04));
 
                 Random rnd = new Random();
                 CheckKeyLeft.Interval = rnd.Next(mincps, maxcps);
 
-                if (clicker && activated)
-                {      
-                    LeftMouseClick();
-                }
+                if (clicker && activated) MouseClicks.LeftMouseClick();
             }
-            else       
+            else
+            {
                 label5.Text = "Key Down: " + (activated = false);
+            }
         }
 
         #endregion
@@ -150,13 +106,8 @@ namespace ZenClicker
 
         private void button1_Click(object sender, EventArgs e)
         {
-            self_destruct();
-        }
-
-        private void self_destruct()
-        {
             checkBox1.Dispose();
-            button1.Dispose();
+            SelfDestruct.Dispose();
             button2.Dispose();
             trackBar1.Dispose();
             trackBar2.Dispose();
@@ -217,7 +168,6 @@ namespace ZenClicker
 
         #region left click cps
 
-        
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             label2.Text = "Min cps: " + trackBar1.Value;

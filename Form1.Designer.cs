@@ -35,7 +35,7 @@ namespace ZenClicker
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SelfDestruct = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -48,10 +48,10 @@ namespace ZenClicker
             this.trackBar4 = new System.Windows.Forms.TrackBar();
             this.CheckKeyRight = new System.Windows.Forms.Timer(this.components);
             this.label9 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar4)).BeginInit();
             this.SuspendLayout();
             // 
             // checkBox1
@@ -105,20 +105,20 @@ namespace ZenClicker
             this.label3.TabIndex = 5;
             this.label3.Text = "Max cps:";
             // 
-            // button1
+            // SelfDestruct
             // 
-            this.button1.Location = new System.Drawing.Point(380, 199);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(161, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Self destruct";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.SelfDestruct.Location = new System.Drawing.Point(380, 199);
+            this.SelfDestruct.Name = "SelfDestruct";
+            this.SelfDestruct.Size = new System.Drawing.Size(161, 23);
+            this.SelfDestruct.TabIndex = 6;
+            this.SelfDestruct.Text = "Self destruct";
+            this.SelfDestruct.UseVisualStyleBackColor = true;
+            this.SelfDestruct.Click += new System.EventHandler(this.button1_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label4.Location = new System.Drawing.Point(12, 199);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(194, 40);
@@ -153,7 +153,7 @@ namespace ZenClicker
             // 
             this.label1.AutoSize = true;
             this.label1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label1.Location = new System.Drawing.Point(5, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 20);
@@ -165,7 +165,7 @@ namespace ZenClicker
             // 
             this.label6.AutoSize = true;
             this.label6.Cursor = System.Windows.Forms.Cursors.Default;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.label6.Location = new System.Drawing.Point(276, 43);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(95, 20);
@@ -241,7 +241,7 @@ namespace ZenClicker
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.SelfDestruct);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.trackBar2);
@@ -252,35 +252,34 @@ namespace ZenClicker
             this.Name = "Form1";
             this.Text = "ZenClicker";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
-        #endregion
-
+        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.Timer CheckKeyLeft;
+        private System.Windows.Forms.Timer CheckKeyRight;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Timer CheckKeyLeft;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button SelfDestruct;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.TrackBar trackBar3;
         private System.Windows.Forms.TrackBar trackBar4;
-        private System.Windows.Forms.Timer CheckKeyRight;
-        private System.Windows.Forms.Label label9;
+
+        #endregion
     }
 }
 
