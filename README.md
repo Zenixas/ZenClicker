@@ -13,10 +13,10 @@ Right key toggle key - F2
 - [x] Hide in taskbar
 - [x] Right click autoclicker
 - [x] Clean code
-- [ ] Better design
+- [x] Better design
 - [ ] Custom toggle key
 - [ ] Hide in task manager
 
 
 ## Screenshot:
-<h4 align="center"><img src=https://raw.githubusercontent.com/Zenixas/ZenClicker/main/image/image.png?raw=true"> <h4>
+<h4 align="center"><img src=https://raw.githubusercontent.com/Zenixas/ZenClicker/main/image/xyz.png?raw=true"> <h4>
