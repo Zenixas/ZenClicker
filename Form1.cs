@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace ZenClicker
 {
+
+
     public partial class Form1 : Form
     {
         private bool activated;
@@ -20,8 +23,7 @@ namespace ZenClicker
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
-                clicker = true;
+            if (checkBox1.Checked) clicker = true;
 
             else if (!checkBox1.Checked) clicker = false;
         }
@@ -38,6 +40,10 @@ namespace ZenClicker
             CheckKeyRight.Start();
             CheckKeyLeft.Start();
 
+            label2.Text = "Min cps: " + LeftMinCPS.Value;
+            label3.Text = "Max cps: " + LeftMaxCPS.Value;
+            label7.Text = "Min cps: " + RightMinCPS.Value;
+            label8.Text = "Max cps: " + RightMaxCPS.Value;
             label5.Text = "Key Down: " + activated;
             label9.Text = "Key Down: " + activated_right;
 
@@ -62,8 +68,8 @@ namespace ZenClicker
             {
                 label9.Text = "Key Down: " + (activated_right = true);
 
-                int maxcps = (int) Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.02));
-                int mincps = (int) Math.Round(1000 / (trackBar4.Value + trackBar3.Value * 0.04));
+                int maxcps = (int) Math.Round(1000 / (RightMaxCPS.Value + RightMinCPS.Value * 0.02));
+                int mincps = (int) Math.Round(1000 / (RightMaxCPS.Value + RightMinCPS.Value * 0.04));
 
                 Random rnd = new Random();
                 CheckKeyRight.Interval = rnd.Next(mincps, maxcps);
@@ -80,14 +86,14 @@ namespace ZenClicker
 
         #region leftclicking
 
-        private void CheckKeysLeft_Tick(object sender, EventArgs e)
+        private void CheckKeyLeft_Tick(object sender, EventArgs e)
         {
             if (Keyboard.IsKeyToggled(Key.F1))
             {
                 label5.Text = "Key Down: " + (activated = true);
 
-                int maxcps = (int) Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.02));
-                int mincps = (int) Math.Round(1000 / (trackBar2.Value + trackBar1.Value * 0.04));
+                int maxcps = (int) Math.Round(1000 / (LeftMaxCPS.Value + LeftMinCPS.Value * 0.02));
+                int mincps = (int) Math.Round(1000 / (LeftMaxCPS.Value + LeftMinCPS.Value * 0.04));
 
                 Random rnd = new Random();
                 CheckKeyLeft.Interval = rnd.Next(mincps, maxcps);
@@ -104,15 +110,15 @@ namespace ZenClicker
 
         #region self_destruct
 
-        private void button1_Click(object sender, EventArgs e)
+        private void SelfDestruct_Click(object sender, EventArgs e)
         {
             checkBox1.Dispose();
             SelfDestruct.Dispose();
-            button2.Dispose();
-            trackBar1.Dispose();
-            trackBar2.Dispose();
-            trackBar3.Dispose();
-            trackBar4.Dispose();
+            HideInTaskbar.Dispose();
+            LeftMinCPS.Dispose();
+            LeftMaxCPS.Dispose();
+            RightMinCPS.Dispose();
+            RightMaxCPS.Dispose();
             label1.Dispose();
             label2.Dispose();
             label3.Dispose();
@@ -122,6 +128,10 @@ namespace ZenClicker
             label7.Dispose();
             label8.Dispose();
             label9.Dispose();
+            CloseButton.Dispose();
+            MinimizeButton.Dispose();
+            siticoneLabel1.Dispose();
+            siticoneImageButton1.Dispose();
             Application.Exit();
         }
 
@@ -129,7 +139,7 @@ namespace ZenClicker
 
         #region hide_taskbar
 
-        private void button2_Click(object sender, EventArgs e)
+        private void HideInTaskbar_Click(object sender, EventArgs e)
         {
             ShowInTaskbar = !ShowInTaskbar;
         }
@@ -138,29 +148,29 @@ namespace ZenClicker
 
         #region right click cps
 
-        private void trackBar3_Scroll(object sender, EventArgs e)
+        private void RightMinCPS_Scroll(object sender, EventArgs e)
         {
-            label7.Text = "Min cps: " + trackBar3.Value;
+            label7.Text = "Min cps: " + RightMinCPS.Value;
 
             // makes sure max value isnt less than min value
-            if (trackBar3.Value > trackBar4.Value)
+            if (RightMinCPS.Value > RightMaxCPS.Value)
             {
-                trackBar4.Value = trackBar3.Value;
-                label7.Text = "Min cps: " + trackBar3.Value;
-                label8.Text = "Max cps: " + trackBar4.Value;
+                RightMaxCPS.Value = RightMinCPS.Value;
+                label7.Text = "Min cps: " + RightMinCPS.Value;
+                label8.Text = "Max cps: " + RightMaxCPS.Value;
             }
         }
 
-        private void trackBar4_Scroll(object sender, EventArgs e)
+        private void RightMaxCPS_Scroll(object sender, EventArgs e)
         {
-            label8.Text = "Max cps: " + trackBar4.Value;
+            label8.Text = "Max cps: " + RightMaxCPS.Value;
 
             // makes sure min value isnt more than max value
-            if (trackBar4.Value < trackBar3.Value)
+            if (RightMaxCPS.Value < RightMinCPS.Value)
             {
-                trackBar4.Value = trackBar3.Value;
-                label7.Text = "Min cps: " + trackBar3.Value;
-                label8.Text = "Max cps: " + trackBar4.Value;
+                RightMaxCPS.Value = RightMinCPS.Value;
+                label7.Text = "Min cps: " + RightMinCPS.Value;
+                label8.Text = "Max cps: " + RightMaxCPS.Value;
             }
         }
 
@@ -168,30 +178,77 @@ namespace ZenClicker
 
         #region left click cps
 
-        private void trackBar1_Scroll(object sender, EventArgs e)
+        private void LeftMinCPS_Scroll(object sender, EventArgs e)
         {
-            label2.Text = "Min cps: " + trackBar1.Value;
+            label2.Text = "Min cps: " + LeftMinCPS.Value;
 
             // makes sure max value isnt less than min value
-            if (trackBar1.Value > trackBar2.Value)
+            if (LeftMinCPS.Value > LeftMaxCPS.Value)
             {
-                trackBar2.Value = trackBar1.Value;
-                label2.Text = "Min cps: " + trackBar1.Value;
-                label3.Text = "Max cps: " + trackBar2.Value;
+                LeftMaxCPS.Value = LeftMinCPS.Value;
+                label2.Text = "Min cps: " + LeftMinCPS.Value;
+                label3.Text = "Max cps: " + LeftMaxCPS.Value;
             }
         }
 
-        private void trackBar2_Scroll(object sender, EventArgs e)
+        private void LeftMaxCPS_Scroll(object sender, EventArgs e)
         {
-            label3.Text = "Max cps: " + trackBar2.Value;
+            label3.Text = "Max cps: " + LeftMaxCPS.Value;
 
             // makes sure min value isnt more than max value
-            if (trackBar2.Value < trackBar1.Value)
+            if (LeftMaxCPS.Value < LeftMinCPS.Value)
             {
-                trackBar2.Value = trackBar1.Value;
-                label2.Text = "Min cps: " + trackBar1.Value;
-                label3.Text = "Max cps: " + trackBar2.Value;
+                LeftMaxCPS.Value = LeftMinCPS.Value;
+                label2.Text = "Min cps: " + LeftMinCPS.Value;
+                label3.Text = "Max cps: " + LeftMaxCPS.Value;
             }
+        }
+
+        #endregion
+
+        #region Panel / Movable window / close / minimize
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        // https://stackoverflow.com/questions/11379209/how-do-i-make-mousedrag-inside-panel-move-form-window/
+
+        private void panel1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        #endregion
+
+        #region github button
+
+        private void siticoneImageButton1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/Zenixas",
+                UseShellExecute = true
+            });
         }
 
         #endregion
